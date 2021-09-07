@@ -1,0 +1,48 @@
+#!perl
+
+# NO_PERINCI_CMDLINE_SCRIPT
+# FRAGMENT id=shcompgen-hint completer=1 for=yt-dlp
+
+use 5.010001;
+use strict;
+use warnings;
+use Log::ger;
+
+use CLI::Meta::YtDlp;
+use Getopt::Long::Complete; # just so we can be detected as Getopt::Long script
+use ShellCompleter::Util qw(run_shell_completer_for_getopt_long_app);
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
+
+my $meta = $CLI::Meta::YtDlp::META;
+my $opts = $meta->{opts};
+
+binmode(STDOUT, ":encoding(utf8)");
+run_shell_completer_for_getopt_long_app(
+    map { $_ => (defined $opts->{$_} && defined $opts->{$_}{completion} ? $opts->{$_}{completion} : undef) } keys %$opts,
+);
+
+# ABSTRACT: Shell completer for yt-dlp
+# PODNAME:
+
+=head1 SYNOPSIS
+
+To install, install the CPAN distribution this command comes in with, and then
+in your bash (and/or bash startup file):
+
+ complete -C _yt-dlp yt-dlp
+
+or, you can use L<shcompgen> to do that for you automatically.
+
+Now L<yt-dlp> has bash completion:
+
+ % yt-dlp --no-pl<tab>
+ % yt-dlp --external-downloader c<tab>
+
+
+=head1 SEE ALSO
+
+L<_youtube-dl> script from L<App::ShellCompleter::YoutubeDl>
